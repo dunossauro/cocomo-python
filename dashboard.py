@@ -1,7 +1,7 @@
 from dash import Dash
-from dash_core_components import Graph, Dropdown
-from dash_html_components import Div, P, H1
 from dash.dependencies import Input, Output
+from dash_core_components import Dropdown, Graph
+from dash_html_components import H1, Div, P
 
 from src.database import LastPackage, Package, PackageHistory
 

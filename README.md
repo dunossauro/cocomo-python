@@ -14,6 +14,7 @@ In the poetry environment, execute the module to download and generate the value
 ```bash
 python -m src json packages.json  # estimate cocomo from json
 python -m src package_history <lib>  # download all versions and estimate cocomo
+python dashboard.py # start dashboard
 ```
 
 

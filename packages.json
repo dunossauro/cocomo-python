@@ -1,0 +1,97 @@
+{
+    "Flask": [
+	"flask",
+	"jinja2",
+	"werkzeug",
+	"markupsafe",
+	"click",
+	"itsdangerous"
+    ],
+    "Django": [
+        "django",
+        "djangorestframework"
+    ],
+    "FastAPI": [
+	"fastapi",
+        "starlette",
+	"pydantic"
+    ],
+    "Plots": [
+	"dash",
+	"matplotlib",
+	"seaborn",
+	"bokeh"
+    ],
+    "Mobile": [
+	"kivy",
+	"kivymd"
+    ],
+    "Testing":[
+	"Appium-Python-Client",
+	"Pytest",
+	"Behave",
+	"tox",
+	"nox"
+    ],
+    "Ops": [
+	"Ansible",
+	"Dynaconf",
+	"boto3",
+	"botocore",
+	"docker-compose"
+    ],
+    "Linters": [
+	"Mypy",
+	"flake8",
+	"mccabe",
+	"isort",
+	"pylint",
+	"bandit",
+	"pyflakes",
+	"pydocstyle",
+	"doc8",
+	"pylama",
+	"black"
+    ],
+    "Doc": [
+	"mkdocs",
+	"sphinx"
+    ],
+    "Tools":[
+	"pip",
+	"setuptools",
+	"pipenv",
+	"poetry",
+	"virtualenv",
+	"virtualenvwrapper"
+    ],
+    "SciPy":[
+	"numpy",
+	"ipython",
+	"sympy",
+	"pandas",
+	"matplotlib"
+    ],
+    "top20":[
+	"urllib3",
+	"boto3",
+	"botocore",
+	"six",
+	"setuptools",
+	"requests",
+	"certifi",
+	"idna",
+	"python-dateutil",
+	"chardet",
+	"pyyaml",
+	"s3transfer",
+	"pip",
+	"jmespath",
+	"rsa",
+	"pyasn1",
+	"wheel",
+	"cffi",
+	"numpy",
+	"markupsafe"
+    ]
+}

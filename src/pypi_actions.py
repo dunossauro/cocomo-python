@@ -17,9 +17,7 @@ def package_pypi(package_name):
 
 
 def package_basic_info(package_name):
-    info = get(
-        f'https://pypi.org/pypi/{package_name}/json', timeout=None
-    ).json()
+    info = package_pypi(package_name)
 
     return dict(
         name=package_name,

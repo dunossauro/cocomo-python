@@ -40,25 +40,27 @@ from src.database import Package
 ```python
 from src.database import PackageHistory
 ```
-| arg         | type     | comment |
-| ---         | ----     | ------- |
-| version     | str      | Package version "1.1.0" ....         | 
-| total_cost  | int      | scc cocomo value                     |
-| total_lines | int      | scc total lines of package           |
-| package_url | str      | url to download this package version | 
-| package_name| str      | real package name: "mypy-1.1a.1.whl" |
-| downloaded  | bool     |                                      | 
-| date        | datetime | date the package was uploaded        | 
-| label       |          |                                      |
-| packge_type | str      | wheel, tar, eggs ...                 |
+| arg         | type        | comment |
+| ---         | ----        | ------- |
+| name        | FK(Package) |         |
+| version     | str         | Package version "1.1.0" ....         | 
+| total_cost  | int         | scc cocomo value                     |
+| total_lines | int         | scc total lines of package           |
+| package_url | str         | url to download this package version | 
+| package_name| str         | real package name: "mypy-1.1a.1.whl" |
+| downloaded  | bool        |                                      | 
+| date        | datetime    | date the package was uploaded        | 
+| label       |             |                                      |
+| packge_type | str         | wheel, tar, eggs ...                 |
 
 ### LastPackage
 ```Python
 from src.database import LastPackage
 ```
-| arg         | type  |
-|------       | ----- |
-| version     | str   |
-| total_cost  | int   |
-| total_lines | int   |
-| group       | str   |
+| arg         | type        |
+|------       | -----       |
+| name        | FK(Package) |
+| version     | str         |
+| total_cost  | int         |
+| total_lines | int         |
+| group       | str         |

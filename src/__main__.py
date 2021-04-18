@@ -1,6 +1,6 @@
 import fire
 
 from .cli import json
-from .history import package_history
+from .cli import package_history as history
 
 fire.Fire()

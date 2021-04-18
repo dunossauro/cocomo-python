@@ -1,10 +1,5 @@
-from pathlib import Path
-
-from src.cocomo import sloccount
 from src.database import Package, PackageHistory
-from src.package import unzip_package
-from src.pypi_actions import download_file, package_pypi
-from src.utils import temp_path
+from src.pypi_actions import package_pypi
 
 
 def full_info(package_name, label=''):
@@ -40,31 +35,3 @@ def full_info(package_name, label=''):
                 )
 
                 pkg_history.save()
-
-
-def package_history(package_name, label='', salary=110_140):
-    full_info(package_name, label)
-    with temp_path(package_name):
-        for p in (
-            PackageHistory.select()
-            .join(Package)
-            .where(
-                PackageHistory.downloaded == False,
-                Package.name == package_name,
-            )
-        ):
-            try:
-                local_file = download_file(p.package_url)
-                unzip_path = unzip_package(local_file, Path('vendor'))
-                df = sloccount(f'vendor/{unzip_path}', salary=salary)
-
-                p.downloaded = True
-                p.total_lines = df["total_lines"]
-                p.total_cost = df["total_cost"]
-
-                p.packge_type = 'wheel' if 'whl' in p.package_url else 'tar'
-
-                p.save()
-
-            except Exception:
-                ...

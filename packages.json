@@ -14,7 +14,8 @@
     "FastAPI": [
 	"fastapi",
         "starlette",
-	"pydantic"
+	"pydantic",
+	"typer"
     ],
     "Plots": [
 	"dash",
@@ -24,7 +25,8 @@
     ],
     "Mobile": [
 	"kivy",
-	"kivymd"
+	"kivymd",
+	"briefcase"
     ],
     "Testing":[
 	"Appium-Python-Client",
@@ -93,5 +95,12 @@
 	"cffi",
 	"numpy",
 	"markupsafe"
+    ],
+    "AI": [
+	"tensorflow",
+	"keras",
+	"torch",
+	"scikit-learn",
+	"scikit-image"
     ]
 }

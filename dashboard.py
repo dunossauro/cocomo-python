@@ -76,9 +76,8 @@ dash_app.layout = Div(
                                     children='Select package', className='menu-title'
                                 ),
                                 Dropdown(
-                                    id='xpto',
+                                    id='package_history',
                                     className='dropdown',
-                                    multi=True,
                                 ),
                             ],
                         ),
@@ -88,7 +87,7 @@ dash_app.layout = Div(
                     className='wrapper',
                     children=[
                         Graph(
-                            id='graph_lines_value2',
+                            id='graph_package_history',
                             config={'displayModeBar': False},
                         )
                     ],
@@ -122,9 +121,9 @@ def update_packages(search_value):
 
 
 @dash_app.callback(
-    Output(component_id='graph_lines_value', component_property='figure'),
-    Input(component_id='group', component_property='value'),
-    Input(component_id='package', component_property='value'),
+    Output('graph_lines_value', 'figure'),
+    Input('group', 'value'),
+    Input('package', 'value'),
 )
 def lines_price(group, package):
     if not package:
@@ -153,6 +152,61 @@ def lines_price(group, package):
         'layout': {
             'title': {
                 'text': 'SLOC-package x Cocomo-Value (100.000)',
+                'x': 0.05,
+                'xanchor': 'left',
+            }
+        },
+    }
+
+
+@dash_app.callback(
+    Output('package_history', 'options'),
+    Input('package_history', 'value'),
+)
+def history(package_history):
+    return [
+        {'label': p.name, 'value': p.name}
+        for p in Package.select().order_by(Package.name)
+    ]
+
+
+@dash_app.callback(
+    Output('graph_package_history', 'figure'),
+    Input('package_history', 'value'),
+)
+def package_history(package):
+    query = PackageHistory.select().join(Package).where(
+        Package.name == package
+    ).order_by(PackageHistory.date)
+
+    wheel_query = query.where(PackageHistory.packge_type == 'wheel')
+    tar_query = query.where(PackageHistory.packge_type == 'tar')
+    return {
+        'data': [
+            {
+                'y': [d.total_lines for d in wheel_query],
+                'x': [d.date for d in wheel_query],
+                'name': 'Wheel',
+            },
+            {
+                'y': [d.total_cost for d in wheel_query],
+                'x': [d.date for d in wheel_query],
+                'name': 'Cocomo wheel',
+            },
+            {
+                'y': [d.total_lines for d in tar_query],
+                'x': [d.date for d in tar_query],
+                'name': 'Tar',
+            },
+            {
+                'y': [d.total_cost for d in tar_query],
+                'x': [d.date for d in tar_query],
+                'name': 'Cocomo tar',
+            },
+        ],
+        'layout': {
+            'title': {
+                'text': 'Package history',
                 'x': 0.05,
                 'xanchor': 'left',
             }

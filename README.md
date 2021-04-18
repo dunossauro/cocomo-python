@@ -49,3 +49,11 @@ from src.database import Package
 ```Python
 from src.database import LastPackage
 ```
+| arg         | type  |
+|------       | ----- |
+| name        | |
+| version     | |
+| total_cost  | |
+| total_lines | |
+| group       | |
+

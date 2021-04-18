@@ -7,7 +7,7 @@ from pkg_resources import Requirement
 from pkginfo import SDist, Wheel
 
 
-def unzip_package(wheel, output_path):
+def unzip_package(wheel, output_path, package_name):
     if (
         wheel.endswith('.whl')
         or wheel.endswith('.egg')
@@ -17,15 +17,20 @@ def unzip_package(wheel, output_path):
     else:
         opener, mode, names = tarfile.open, 'r:gz', 'getnames'
 
-    try:
-        package = opener(wheel, mode)
-        paths = Counter(
+    def discovery_real_path(package, list_files):
+        path = Counter(
             [
                 Path(x).parts[0]
                 for x in getattr(package, names)()
                 if 'dist-info' not in x  # six and psycopg2 case
             ]
         )
+
+        return path
+
+    try:
+        package = opener(wheel, mode)
+        paths = discovery_real_path(package, names)
         package.extractall(output_path)
         package.close()
         return paths.most_common(1)[0][0]

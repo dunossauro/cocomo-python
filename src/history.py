@@ -20,25 +20,26 @@ def full_info(package_name, label=''):
         pkg.save()
 
     for release in info['releases'].keys():
-        release_info = info["releases"][release][0]
+        if info["releases"][release]:
+            release_info = info["releases"][release][0]
 
-        pkg_release = (
-            PackageHistory()
-            .select()
-            .where(PackageHistory.version == release)
-            .first()
-        )
-
-        if not pkg_release:
-            pkg_history = PackageHistory(
-                name=pkg,
-                version=release,
-                date=release_info['upload_time'],
-                package_name=release_info['filename'],
-                package_url=release_info['url'],
+            pkg_release = (
+                PackageHistory()
+                .select()
+                .where(PackageHistory.version == release)
+                .first()
             )
 
-            pkg_history.save()
+            if not pkg_release:
+                pkg_history = PackageHistory(
+                    name=pkg,
+                    version=release,
+                    date=release_info['upload_time'],
+                    package_name=release_info['filename'],
+                    package_url=release_info['url'],
+                )
+
+                pkg_history.save()
 
 
 def package_history(package_name, label='', salary=110_140):

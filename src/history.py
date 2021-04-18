@@ -1,10 +1,10 @@
 from pathlib import Path
 
 from src.cocomo import sloccount
-from src.package import unzip_package
-from src.utils import temp_path
 from src.database import Package, PackageHistory
-from src.pypi_actions import package_pypi, download_file
+from src.package import unzip_package
+from src.pypi_actions import download_file, package_pypi
+from src.utils import temp_path
 
 
 def full_info(package_name, label=''):

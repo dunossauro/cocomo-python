@@ -1,6 +1,7 @@
 from re import IGNORECASE, findall
-from .utils import execute_command, format_regex_package_name
+
 from .package import package_dependencies
+from .utils import execute_command, format_regex_package_name
 
 
 def download_package_whell(package, deps=False):

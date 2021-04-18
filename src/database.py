@@ -1,11 +1,11 @@
 from peewee import (
     BooleanField,
     DateTimeField,
+    ForeignKeyField,
     IntegerField,
     Model,
     SqliteDatabase,
     TextField,
-    ForeignKeyField,
 )
 
 db = SqliteDatabase('packages.db')

@@ -1,14 +1,16 @@
+from json import dumps
+
+from playhouse.shortcuts import model_to_dict
+
+from .cocomo import sloccount as scc
+from .database import LastPackage, Package
 from .package import unzip_package
 from .pypi_actions import (
     download_last_package_version,
     package_basic_info,
     package_versions,
 )
-from .cocomo import sloccount as scc
-from .utils import temp_path, json_parse
-from .database import LastPackage, Package
-from playhouse.shortcuts import model_to_dict
-from json import dumps
+from .utils import json_parse, temp_path
 
 
 def json(file, verbose=False, salary=110_140):

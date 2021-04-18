@@ -1,8 +1,8 @@
 from contextlib import contextmanager
 from json import loads
 from os import chdir, getcwd, makedirs, path
-from subprocess import PIPE, STDOUT, Popen
 from shutil import rmtree
+from subprocess import PIPE, STDOUT, Popen
 
 
 @contextmanager

@@ -1,4 +1,4 @@
-from httpx import stream, get
+from httpx import get, stream
 
 
 def download_file(url):

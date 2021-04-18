@@ -10,6 +10,7 @@ dash_app = Dash(__name__)
 dash_app.layout = Div(
     children=[
         Div(
+            className='header',
             children=[
                 P(children='📈', className='header-emoji'),
                 H1(children='COCOMO-PYTHON', className='header-title'),
@@ -24,7 +25,6 @@ dash_app.layout = Div(
                     className='header-description',
                 ),
             ],
-            className='header',
         ),
         Div(
             className='menu',
@@ -61,6 +61,38 @@ dash_app.layout = Div(
                     id='graph_lines_value',
                     config={'displayModeBar': False},
                 )
+            ],
+        ),
+        Div(
+            className='graph-header',
+            children=[
+                Div(
+                    className='menu2',
+                    children=[
+                        Div(
+                            className='dropdown',
+                            children=[
+                                Div(
+                                    children='Select package', className='menu-title'
+                                ),
+                                Dropdown(
+                                    id='xpto',
+                                    className='dropdown',
+                                    multi=True,
+                                ),
+                            ],
+                        ),
+                    ],
+                ),
+                Div(
+                    className='wrapper',
+                    children=[
+                        Graph(
+                            id='graph_lines_value2',
+                            config={'displayModeBar': False},
+                        )
+                    ],
+                ),
             ],
         ),
     ]

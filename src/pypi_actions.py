@@ -16,6 +16,18 @@ def package_pypi(package_name):
     ).json()
 
 
+def package_basic_info(package_name):
+    info = get(
+        f'https://pypi.org/pypi/{package_name}/json', timeout=None
+    ).json()
+
+    return dict(
+        name=package_name,
+        license=info["info"]['license'],
+        url=info["info"]['project_url'],
+    )
+
+
 def package_url(package_name, version):
     package_info = package_pypi(package_name)
     return package_info['releases'][version][0]["url"]

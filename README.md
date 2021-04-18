@@ -17,7 +17,6 @@ python -m src package_history <lib>  # download all versions and estimate cocomo
 python dashboard.py # start dashboard
 ```
 
-
 ## Dependencies
 To calculate cococo we are using SCC, so make sure you have it installed on your system
 https://github.com/boyter/scc
@@ -36,15 +35,20 @@ from src.database import Package
 | name        | str      | Package name. "Flask", "Django", "NumPy" .... |
 | license     | str      | Package license "GPL", "MIT", ...             |
 | url         | str      | Pypi URL                                      |
-| version     | str      | Package version "1.1.0" ....                  | 
-| total_cost  | int      | scc cocomo value                              |
-| total_lines | int      | scc total lines of package                    |
-| package_url | str      | url to download this package version          | 
-| package_name| str      | real package name: "mypy-1.1a.1.whl"          |
-| downloaded  | bool     |                                               | 
-| date        | datetime | date the package was uploaded                 | 
-| label       |          |                                               |
-| packge_type | str      | wheel, tar, eggs ...                          | 
+
+### PackageHistory
+```python
+from src.database import PackageHistory
+```
+| version     | str      | Package version "1.1.0" ....         | 
+| total_cost  | int      | scc cocomo value                     |
+| total_lines | int      | scc total lines of package           |
+| package_url | str      | url to download this package version | 
+| package_name| str      | real package name: "mypy-1.1a.1.whl" |
+| downloaded  | bool     |                                      | 
+| date        | datetime | date the package was uploaded        | 
+| label       |          |                                      |
+| packge_type | str      | wheel, tar, eggs ...                 |
 
 ### LastPackage
 ```Python
@@ -52,9 +56,7 @@ from src.database import LastPackage
 ```
 | arg         | type  |
 |------       | ----- |
-| name        | |
-| version     | |
-| total_cost  | |
-| total_lines | |
-| group       | |
-
+| version     | str   |
+| total_cost  | int   |
+| total_lines | int   |
+| group       | str   |

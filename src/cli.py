@@ -1,26 +1,64 @@
 from .package import unzip_package
-from .pypi_actions import download_last_package_version
+from .pypi_actions import (
+    download_last_package_version,
+    package_basic_info,
+    package_versions,
+)
 from .cocomo import sloccount as scc
 from .utils import temp_path, json_parse
-from .database import LastPackage
+from .database import LastPackage, Package
+from playhouse.shortcuts import model_to_dict
+from json import dumps
 
 
-def json(file, salary=110_140, verbose=False):
-    out = []
+def json(file, verbose=False, salary=110_140):
     for group, packages in json_parse(file):
         with temp_path('v3'):
             for package in packages:
-                packge_path, last_version = download_last_package_version(
-                    package
+                pkg = Package().select().where(Package.name == package).first()
+                if not pkg:
+                    pkg = Package(**package_basic_info(package))
+                    pkg.save()
+
+                last_version = package_versions(package, only_last=True)
+
+                last = (
+                    LastPackage()
+                    .select()
+                    .join(Package)
+                    .where(
+                        Package.name == package,
+                        LastPackage.version == last_version,
+                    )
+                    .first()
                 )
-                path = unzip_package(packge_path, 'vendor/')
-                cocomo = scc('vendor/' + path, salary=salary)
-                result = {
-                    'name': package,
-                    'version': last_version,
-                    'group': group,
-                } | cocomo
-                LastPackage(**result).save()
-                out.append(result)
+
+                if not last:
+                    packge_path, last_version = download_last_package_version(
+                        package
+                    )
+
+                    path = unzip_package(packge_path, 'vendor/')
+                    cocomo = scc('vendor/' + path, salary=salary)
+
+                    result = {
+                        'version': last_version,
+                        'group': group,
+                    } | cocomo
+
+                    LastPackage(name=pkg, **result).save()
                 if verbose:
-                    print(result)
+                    print(
+                        dumps(
+                            model_to_dict(
+                                LastPackage()
+                                .select()
+                                .join(Package)
+                                .where(
+                                    Package.name == package,
+                                    LastPackage.version == last_version,
+                                )
+                                .first()
+                            )
+                        )
+                    )

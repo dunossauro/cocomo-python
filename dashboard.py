@@ -3,7 +3,7 @@ from dash_core_components import Graph, Dropdown
 from dash_html_components import Div, P, H1
 from dash.dependencies import Input, Output
 
-from src.database import LastPackage, Package
+from src.database import LastPackage, Package, PackageHistory
 
 dash_app = Dash(__name__)
 
@@ -11,132 +11,121 @@ dash_app.layout = Div(
     children=[
         Div(
             children=[
-                Dropdown(
-                    id='group',
-                    options=[
-                        {'label': i, 'value': i}
-                        for i in set(x.group for x in LastPackage.select())
-                    ],
+                P(children='📈', className='header-emoji'),
+                H1(children='COCOMO-PYTHON', className='header-title'),
+                P(
+                    children='''
+                    A simple analysis of packages in pypi.
+                    ''',
+                    className='header-description',
                 ),
-                Graph(
-                    id='xpto',
+                P(
+                    children='https://github.com/dunossauro/cocomo-python',
+                    className='header-description',
                 ),
-            ]
+            ],
+            className='header',
         ),
         Div(
+            className='menu',
             children=[
-                Dropdown(
-                    id='package',
-                    options=[
-                        {'label': i, 'value': i}
-                        for i in set(x.name for x in Package.select())
+                Div(
+                    className='dropdown',
+                    children=[
+                        Div(children='Select Group', className='menu-title'),
+                        Dropdown(
+                            id='group',
+                            className='dropdown',
+                        ),
                     ],
                 ),
-                Graph(
-                    id='xpto2',
+                Div(
+                    className='dropdown',
+                    children=[
+                        Div(
+                            children='Select packages', className='menu-title'
+                        ),
+                        Dropdown(
+                            id='package',
+                            className='dropdown',
+                            multi=True,
+                        ),
+                    ],
                 ),
-            ]
+            ],
+        ),
+        Div(
+            className='wrapper',
+            children=[
+                Graph(
+                    id='graph_lines_value',
+                    config={'displayModeBar': False},
+                )
+            ],
         ),
     ]
 )
 
 
 @dash_app.callback(
-    Output(component_id='xpto', component_property='figure'),
-    Input(component_id='group', component_property='value'),
+    Output('group', 'options'),
+    Input('group', 'search_value'),
 )
-def generate_graphs(group):
-    x = []
-    y1 = []
-    y2 = []
-    for p in LastPackage.select().where(LastPackage.group == group):
-        y1.append(p.total_lines)
-        y2.append(p.total_cost)
-        x.append(p.name)
-
-    return {
-        'data': [
-            {
-                'y': x,
-                'x': y1,
-                'type': 'bar',
-                'name': 'Linhas de código',
-                'orientation': 'h',
-            },
-            {
-                'y': x,
-                'x': y2,
-                'type': 'bar',
-                'name': 'Custo estimado',
-                'orientation': 'h',
-            },
-        ],
-    }
+def update_groups(search_value):
+    return [
+        {'label': p.group.capitalize(), 'value': p.group}
+        for p in LastPackage.select().group_by(LastPackage.group).execute()
+    ]
 
 
 @dash_app.callback(
-    Output(component_id='xpto2', component_property='figure'),
+    Output('package', 'options'),
+    Input('group', 'value'),
+)
+def update_packages(search_value):
+    return [
+        {'label': p.name.name.capitalize(), 'value': p.name.name}
+        for p in LastPackage.select().where(LastPackage.group == search_value)
+    ]
+
+
+@dash_app.callback(
+    Output(component_id='graph_lines_value', component_property='figure'),
+    Input(component_id='group', component_property='value'),
     Input(component_id='package', component_property='value'),
 )
-def lib(package):
-    x1 = []
-    x2 = []
-    x3 = []
-
-    y1 = []
-    y2 = []
-    y3 = []
-
-    for p in (
-        Package.select()
-        .where(
-            Package.name == package,
-            Package.downloaded == True,
+def lines_price(group, package):
+    if not package:
+        query = LastPackage.select().where(LastPackage.group == group)
+    else:
+        query = (
+            LastPackage.select().join(Package).where(Package.name.in_(package))
         )
-        .order_by(Package.date)
-    ):
-        x1.append(p.date)
-        y1.append(p.total_cost)
-
-    for p in (
-        Package.select()
-        .where(
-            Package.name == package,
-            Package.downloaded == True,
-            Package.packge_type == 'wheel',
-        )
-        .order_by(Package.date)
-    ):
-        x2.append(p.date)
-        y2.append(p.total_lines)
-
-    for p in (
-        Package.select()
-        .where(
-            Package.name == package,
-            Package.downloaded == True,
-            Package.packge_type == 'tar',
-        )
-        .order_by(Package.date)
-    ):
-        x3.append(p.date)
-        y3.append(p.total_lines)
-
     return {
         'data': [
-            {'x': x2, 'y': y2, 'name': 'wheel'},
             {
-                'x': x1,
-                'y': y1,
-                'name': 'Custo estimado',
+                'y': [d.name.name for d in query],
+                'x': [d.total_lines for d in query],
+                'name': 'Code Lines',
+                'type': 'bar',
+                'orientation': 'h',
             },
             {
-                'x': x3,
-                'y': y3,
-                'name': 'tar',
+                'y': [d.name.name for d in query],
+                'x': [d.total_cost for d in query],
+                'name': 'Cocomo',
+                'type': 'bar',
+                'orientation': 'h',
             },
-        ]
+        ],
+        'layout': {
+            'title': {
+                'text': 'SLOC-package x Cocomo-Value (100.000)',
+                'x': 0.05,
+                'xanchor': 'left',
+            }
+        },
     }
 
 
-dash_app.run_server()
+dash_app.run_server(debug=True)

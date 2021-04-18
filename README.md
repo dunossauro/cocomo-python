@@ -41,6 +41,7 @@ from src.database import Package
 from src.database import PackageHistory
 ```
 | arg         | type     | comment |
+| ---         | ----     | ------- |
 | version     | str      | Package version "1.1.0" ....         | 
 | total_cost  | int      | scc cocomo value                     |
 | total_lines | int      | scc total lines of package           |

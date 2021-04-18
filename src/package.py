@@ -8,7 +8,11 @@ from pkginfo import SDist, Wheel
 
 
 def unzip_package(wheel, output_path):
-    if wheel.endswith('.whl') or wheel.endswith('.egg'):
+    if (
+        wheel.endswith('.whl')
+        or wheel.endswith('.egg')
+        or wheel.endswith('.zip')
+    ):
         opener, mode, names = ZipFile, 'r', 'namelist'
     else:
         opener, mode, names = tarfile.open, 'r:gz', 'getnames'

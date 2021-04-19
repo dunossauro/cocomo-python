@@ -178,7 +178,7 @@ def lines_price(group, package):
         ],
         'layout': {
             'title': {
-                'text': 'SLOC-package x Cocomo-Value (110.140)',
+                'text': f'SLOC-package x Cocomo-Value (110.140) - {group}',
                 'x': 0.05,
                 'xanchor': 'left',
             }
@@ -236,7 +236,7 @@ def package_history(package):
         ],
         'layout': {
             'title': {
-                'text': 'Package history',
+                'text': f'Package history - {package}',
                 'x': 0.05,
                 'xanchor': 'left',
             }
@@ -295,7 +295,7 @@ def python(value):
                 'marker': {
                     'color': ['#71134C' for x in query],
                 },
-                'name': 'code lines'
+                'name': 'code lines',
             },
             {
                 'x': [x.version for x in query],

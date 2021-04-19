@@ -90,7 +90,7 @@ def package_history(package_name, label='', salary=110_140):
                 p.total_lines = df["total_lines"]
                 p.total_cost = df["total_cost"]
 
-                p.packge_type = 'wheel' if 'whl' in p.package_url else 'tar'
+                p.package_type = 'wheel' if 'whl' in p.package_url else 'tar'
 
                 p.save()
 

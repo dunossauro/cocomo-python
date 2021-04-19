@@ -29,14 +29,14 @@ class PackageDependency(BaseModel):
 
 class PackageHistory(BaseModel):
     name = ForeignKeyField(Package, backref='package')
-    version = TextField(unique=True)
+    version = TextField()
     total_cost = IntegerField(default=0)
     total_lines = IntegerField(default=0)
     package_url = TextField()
     package_name = TextField()
     downloaded = BooleanField(default=False)
     date = DateTimeField()
-    packge_type = TextField(default='')
+    package_type = TextField(default='')
 
 
 class LastPackage(BaseModel):

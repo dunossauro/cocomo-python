@@ -162,7 +162,7 @@ def lines_price(group, package):
         ],
         'layout': {
             'title': {
-                'text': 'SLOC-package x Cocomo-Value (100.000)',
+                'text': 'SLOC-package x Cocomo-Value (110.140)',
                 'x': 0.05,
                 'xanchor': 'left',
             }

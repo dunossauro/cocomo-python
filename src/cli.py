@@ -8,12 +8,11 @@ from .database import LastPackage, Package, PackageHistory
 from .history import full_info
 from .package import unzip_package
 from .pypi_actions import (
-    download_file,
     download_last_package_version,
     package_basic_info,
     package_versions,
 )
-from .utils import json_parse, temp_path
+from .utils import download_file, json_parse, temp_path
 
 
 def json(file, verbose=False, salary=110_140):

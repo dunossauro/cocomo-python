@@ -1,13 +1,6 @@
-from httpx import get, stream
+from httpx import get
 
-
-def download_file(url):
-    local_filename = url.split('/')[-1]
-    with stream('GET', url) as r:
-        with open(local_filename, 'wb') as f:
-            for chunk in r.iter_bytes():
-                f.write(chunk)
-    return local_filename
+from .utils import download_file
 
 
 def package_pypi(package_name):

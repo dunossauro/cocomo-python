@@ -4,6 +4,8 @@ from os import chdir, getcwd, makedirs, path
 from shutil import rmtree
 from subprocess import PIPE, STDOUT, Popen
 
+from httpx import stream
+
 
 @contextmanager
 def temp_path(ppath):
@@ -31,3 +33,12 @@ def execute_command(cmd):
 
 def format_regex_package_name(pkg_name):
     return pkg_name.replace('-', '.').replace('_', '.').replace('==', '.')
+
+
+def download_file(url):
+    local_filename = url.split('/')[-1]
+    with stream('GET', url) as r:
+        with open(local_filename, 'wb') as f:
+            for chunk in r.iter_bytes():
+                f.write(chunk)
+    return local_filename

@@ -41,8 +41,8 @@
     ],
     "Testing":[
 	"Appium-Python-Client",
-	"Pytest",
-	"Behave",
+	"pytest",
+	"behave",
 	"tox",
 	"nox"
     ],

@@ -51,6 +51,7 @@ def package_versions(package_name, only_last=False):
                 and '-hg' not in version
                 and not version.endswith('a')
                 and not version.endswith('b')
+                and not version.endswith('pre')
             ),
             key=StrictVersion,
             reverse=True,

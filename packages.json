@@ -7,6 +7,16 @@
 	"click",
 	"itsdangerous"
     ],
+    "Database":[
+	"SQLAlchemy",
+	"peewee",
+	"psycopg2",
+	"pymongo",
+	"mysql-connector-python",
+	"redis",
+	"gino",
+	"tortoise-orm"
+    ],
     "Django": [
         "django",
         "djangorestframework"
@@ -15,7 +25,8 @@
 	"fastapi",
         "starlette",
 	"pydantic",
-	"typer"
+	"typer",
+	"uvloop"
     ],
     "Plots": [
 	"dash",
@@ -96,11 +107,22 @@
 	"numpy",
 	"markupsafe"
     ],
-    "AI": [
+    "DeepLearning": [
 	"tensorflow",
 	"keras",
 	"torch",
 	"scikit-learn",
 	"scikit-image"
+    ],
+    "Games":[
+	"pygame",
+	"arcade"
+    ],
+    "Image":[
+	"pillow"
+    ],
+    "Scraping":[
+	"scrapy",
+	"beautifulsoup4"
     ]
 }

@@ -7,6 +7,7 @@ from peewee import fn
 from src.database import LastPackage, Package, PackageHistory
 
 dash_app = Dash(__name__)
+server = dash_app.server
 
 dash_app.layout = Div(
     children=[
@@ -258,6 +259,3 @@ def license(value):
             }
         },
     }
-
-
-dash_app.run_server(debug=True)

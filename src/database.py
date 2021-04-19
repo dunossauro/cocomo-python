@@ -22,6 +22,11 @@ class Package(BaseModel):
     url = TextField()
 
 
+class PackageDependency(BaseModel):
+    package = ForeignKeyField(Package, backref='package')
+    dependency = ForeignKeyField(Package, backref='dependency')
+
+
 class PackageHistory(BaseModel):
     name = ForeignKeyField(Package, backref='package')
     version = TextField(unique=True)
@@ -42,4 +47,4 @@ class LastPackage(BaseModel):
     group = TextField()
 
 
-db.create_tables([Package, LastPackage, PackageHistory])
+db.create_tables([Package, LastPackage, PackageHistory, PackageDependency])

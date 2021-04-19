@@ -18,7 +18,7 @@ dash_app.layout = Div(
                 H1(children='COCOMO-PYTHON', className='header-title'),
                 P(
                     children='''
-                    A simple analysis of packages in pypi.
+                    A Cocomo analysis of the packages available on Pypi.
                     ''',
                     className='header-description',
                 ),
@@ -161,6 +161,9 @@ def lines_price(group, package):
                 'name': 'Code Lines',
                 'type': 'bar',
                 'orientation': 'h',
+                'marker': {
+                    'color': ['#71134C' for x in query],
+                },
             },
             {
                 'y': [d.name.name for d in query],
@@ -168,6 +171,9 @@ def lines_price(group, package):
                 'name': 'Cocomo',
                 'type': 'bar',
                 'orientation': 'h',
+                'marker': {
+                    'color': ['#0D7040' for x in query],
+                },
             },
         ],
         'layout': {
@@ -254,10 +260,12 @@ def license(value):
     return {
         'data': [
             {
-                'x': [x.license_count for x in query],
-                'y': [x.license for x in query],
+                'y': [x.license_count for x in query],
+                'x': [x.license for x in query],
                 'type': 'bar',
-                'orientation': 'h',
+                'marker': {
+                    'color': ['#71134C' for x in query],
+                },
             },
         ],
         'layout': {
@@ -282,8 +290,21 @@ def python(value):
         'data': [
             {
                 'x': [x.version for x in query],
+                'y': [x.total_lines for x in query],
+                'type': 'bar',
+                'marker': {
+                    'color': ['#71134C' for x in query],
+                },
+                'name': 'code lines'
+            },
+            {
+                'x': [x.version for x in query],
                 'y': [x.total_cost for x in query],
                 'type': 'bar',
+                'name': 'cocomo',
+                'marker': {
+                    'color': ['#0D7040' for x in query],
+                },
             },
         ],
         'layout': {

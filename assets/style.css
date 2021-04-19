@@ -12,7 +12,7 @@ body {
 
 .graph-header {
     background-color: #71134c;
-    height: 650px;
+    height: 1050px;
     padding: 16px 0 0 0;
     margin-top: 80px;
 }
@@ -92,5 +92,5 @@ body {
 .menu-title {
     margin-bottom: 6px;
     font-weight: bold;
-    color: #079AA2;
+    color: #0D7040;
 }

@@ -104,6 +104,15 @@ dash_app.layout = Div(
                         )
                     ],
                 ),
+                Div(
+                    className='wrapper',
+                    children=[
+                        Graph(
+                            id='python_history',
+                            config={'displayModeBar': False},
+                        )
+                    ],
+                ),
             ],
         ),
     ]
@@ -259,3 +268,32 @@ def license(value):
             }
         },
     }
+
+
+@dash_app.callback(
+    Output('python_history', 'figure'),
+    Input('package_history', 'value'),
+)
+def python(value):
+    query = (
+        PackageHistory.select().join(Package).where(Package.name == 'python')
+    )
+    return {
+        'data': [
+            {
+                'x': [x.version for x in query],
+                'y': [x.total_cost for x in query],
+                'type': 'bar',
+            },
+        ],
+        'layout': {
+            'title': {
+                'text': 'Python version',
+                'x': 0.05,
+                'xanchor': 'left',
+            }
+        },
+    }
+
+
+# dash_app.run_server(debug=True)

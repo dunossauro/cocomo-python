@@ -2,6 +2,7 @@ from dash import Dash
 from dash.dependencies import Input, Output
 from dash_core_components import Dropdown, Graph
 from dash_html_components import H1, Div, P
+from peewee import fn
 
 from src.database import LastPackage, Package, PackageHistory
 
@@ -64,6 +65,15 @@ dash_app.layout = Div(
             ],
         ),
         Div(
+            className='wrapper',
+            children=[
+                Graph(
+                    id='graph_license',
+                    config={'displayModeBar': False},
+                )
+            ],
+        ),
+        Div(
             className='graph-header',
             children=[
                 Div(
@@ -73,7 +83,8 @@ dash_app.layout = Div(
                             className='dropdown',
                             children=[
                                 Div(
-                                    children='Select package', className='menu-title'
+                                    children='Select package',
+                                    className='menu-title',
                                 ),
                                 Dropdown(
                                     id='package_history',
@@ -175,9 +186,12 @@ def history(package_history):
     Input('package_history', 'value'),
 )
 def package_history(package):
-    query = PackageHistory.select().join(Package).where(
-        Package.name == package
-    ).order_by(PackageHistory.date)
+    query = (
+        PackageHistory.select()
+        .join(Package)
+        .where(Package.name == package)
+        .order_by(PackageHistory.date)
+    )
 
     wheel_query = query.where(PackageHistory.packge_type == 'wheel')
     tar_query = query.where(PackageHistory.packge_type == 'tar')
@@ -207,6 +221,38 @@ def package_history(package):
         'layout': {
             'title': {
                 'text': 'Package history',
+                'x': 0.05,
+                'xanchor': 'left',
+            }
+        },
+    }
+
+
+@dash_app.callback(
+    Output('graph_license', 'figure'),
+    Input('group', 'value'),
+)
+def license(value):
+    query = (
+        Package.select(
+            Package.license, fn.COUNT(Package.id).alias("license_count")
+        )
+        .join(LastPackage)
+        .where(LastPackage.group == value)
+        .group_by(Package.license)
+    )
+    return {
+        'data': [
+            {
+                'x': [x.license_count for x in query],
+                'y': [x.license for x in query],
+                'type': 'bar',
+                'orientation': 'h',
+            },
+        ],
+        'layout': {
+            'title': {
+                'text': 'License type',
                 'x': 0.05,
                 'xanchor': 'left',
             }

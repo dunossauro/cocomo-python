@@ -288,7 +288,7 @@ def python(value):
         ],
         'layout': {
             'title': {
-                'text': 'Python version',
+                'text': 'Python versions',
                 'x': 0.05,
                 'xanchor': 'left',
             }

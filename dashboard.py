@@ -194,8 +194,8 @@ def package_history(package):
         .order_by(PackageHistory.date)
     )
 
-    wheel_query = query.where(PackageHistory.packge_type == 'wheel')
-    tar_query = query.where(PackageHistory.packge_type == 'tar')
+    wheel_query = query.where(PackageHistory.package_type == 'wheel')
+    tar_query = query.where(PackageHistory.package_type == 'tar')
     return {
         'data': [
             {

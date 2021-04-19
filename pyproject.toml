@@ -14,7 +14,7 @@ description = ""
 authors = ["dunossauro <mendesxeduardo@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "3.9.4"
 pkginfo = "^1.7.0"
 httpx = "^0.17.1"
 peewee = "^3.14.4"

@@ -32,6 +32,14 @@ body {
     margin: 0 auto;
 }
 
+.header-title2 {
+    color: #71134c;
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0 auto;
+}
+
 .header-description {
     color: #CFCFCF;
     margin: 4px auto;

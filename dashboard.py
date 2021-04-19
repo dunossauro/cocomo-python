@@ -74,6 +74,7 @@ dash_app.layout = Div(
                 )
             ],
         ),
+        H1(children='Package History', className='header-title2'),
         Div(
             className='graph-header',
             children=[
@@ -104,6 +105,7 @@ dash_app.layout = Div(
                         )
                     ],
                 ),
+                H1(children='Python versions', className='header-title'),
                 Div(
                     className='wrapper',
                     children=[
